@@ -1,0 +1,21 @@
+[*] Command ran: sudo ./palera1n.sh 
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel
+creating virtual environment...
+creating shared libraries...
+upgrading shared libraries...
+installing pyimg4...
+⚠️  Note: '/root/.local/bin' is not on your PATH environment variable. These
+    apps will not be globally accessible until your PATH is updated. Run `pipx
+    ensurepath` to automatically add it, or manually modify your PATH in your
+    shell's config file (i.e. ~/.bashrc).
+done! ✨ 🌟 ✨
+  installed package pyimg4 0.8.6, installed using Python 3.11.2
+  These apps are now globally available
+    - pyimg4
+[*] pyimg4 is installed and ready to use.
+[*] Waiting for devices
+[*] Detected DFU mode device
+[-] You must pass the version your device is on when not starting from normal mode

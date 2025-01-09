@@ -1,0 +1,100 @@
+[*] Command ran: sudo ./palera1n.sh 15.6
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel
+'pyimg4' already seems to be installed. Not modifying existing installation in
+'/root/.local/pipx/venvs/pyimg4'. Pass '--force' to force installation.
+[*] Unzipping gaster...
+Archive:  gaster-Linux.zip
+  inflating: ramdisk/gaster/ent.plist  
+  inflating: ramdisk/gaster/gaster.c  
+  inflating: ramdisk/gaster/gaster   
+  inflating: ramdisk/gaster/LICENSE  
+  inflating: ramdisk/gaster/lzfse.c  
+  inflating: ramdisk/gaster/lzfse.h  
+  inflating: ramdisk/gaster/Makefile  
+  inflating: ramdisk/gaster/payload_A9.bin  
+  inflating: ramdisk/gaster/payload_A9.S  
+  inflating: ramdisk/gaster/payload_handle_checkm8_request.bin  
+  inflating: ramdisk/gaster/payload_handle_checkm8_request.S  
+  inflating: ramdisk/gaster/payload_handle_checkm8_request_armv7.bin  
+  inflating: ramdisk/gaster/payload_handle_checkm8_request_armv7.S  
+  inflating: ramdisk/gaster/payload_notA9.bin  
+  inflating: ramdisk/gaster/payload_notA9.S  
+  inflating: ramdisk/gaster/payload_notA9_armv7.bin  
+  inflating: ramdisk/gaster/payload_notA9_armv7.S  
+  inflating: ramdisk/gaster/.git/config  
+  inflating: ramdisk/gaster/.git/description  
+  inflating: ramdisk/gaster/.git/FETCH_HEAD  
+  inflating: ramdisk/gaster/.git/HEAD  
+  inflating: ramdisk/gaster/.git/index  
+  inflating: ramdisk/gaster/.git/shallow  
+  inflating: ramdisk/gaster/.git/hooks/applypatch-msg.sample  
+  inflating: ramdisk/gaster/.git/hooks/commit-msg.sample  
+  inflating: ramdisk/gaster/.git/hooks/fsmonitor-watchman.sample  
+  inflating: ramdisk/gaster/.git/hooks/post-update.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-applypatch.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-commit.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-merge-commit.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-push.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-rebase.sample  
+  inflating: ramdisk/gaster/.git/hooks/pre-receive.sample  
+  inflating: ramdisk/gaster/.git/hooks/prepare-commit-msg.sample  
+  inflating: ramdisk/gaster/.git/hooks/push-to-checkout.sample  
+  inflating: ramdisk/gaster/.git/hooks/update.sample  
+  inflating: ramdisk/gaster/.git/info/exclude  
+  inflating: ramdisk/gaster/.git/logs/HEAD  
+  inflating: ramdisk/gaster/.git/logs/refs/heads/main  
+  inflating: ramdisk/gaster/.git/logs/refs/remotes/origin/main  
+  inflating: ramdisk/gaster/.git/objects/01/78daa1601ffec7d42a03b0a61d2f7f488c59ff  
+  inflating: ramdisk/gaster/.git/objects/02/921beb93dedf8d2a736f0abe08103e5e043b93  
+  inflating: ramdisk/gaster/.git/objects/0e/1f5965863ca678ff1832a55c3bb5b790b82cf1  
+  inflating: ramdisk/gaster/.git/objects/1b/1241d55cad5bd3d03882f1491479f0c3f01e4e  
+  inflating: ramdisk/gaster/.git/objects/20/1a3b94f4d11d195885f601f609e5b291ee579f  
+  inflating: ramdisk/gaster/.git/objects/26/1eeb9e9f8b2b4b0d119366dda99c6fd7d35c64  
+  inflating: ramdisk/gaster/.git/objects/3c/81b21650bd6ec669e41ab22d94f0d28086e116  
+  inflating: ramdisk/gaster/.git/objects/44/1e22f50ad34c86ad30f47e40205d13abb30cfc  
+  inflating: ramdisk/gaster/.git/objects/46/0360b8159dbb60927292f23d43cf991b8ff967  
+  inflating: ramdisk/gaster/.git/objects/47/d7cf0f8394f6ccfee727ac2dbae80fb677381f  
+  inflating: ramdisk/gaster/.git/objects/49/318120f61b23db36ea18bbb74f60c8f427e96a  
+  inflating: ramdisk/gaster/.git/objects/4f/b2ab48758743c95549bbb2962ce05f71c118e2  
+  inflating: ramdisk/gaster/.git/objects/62/55d2763d714521d6b267251f6a621c70bd3531  
+  inflating: ramdisk/gaster/.git/objects/66/9a4226f8ff4e7d11dc1500c150a6bcd0ebc566  
+  inflating: ramdisk/gaster/.git/objects/79/655cea7a527d601b46e7414879067f6041d10f  
+  inflating: ramdisk/gaster/.git/objects/8d/cff9693f5366c0f2128e972d9bda2b4b102f04  
+  inflating: ramdisk/gaster/.git/objects/b4/66b8422b6a860a96e4c34897c10a3f46ee6521  
+  inflating: ramdisk/gaster/.git/objects/b4/b165748cb351babaddc96ef7a80b44aab3a53c  
+  inflating: ramdisk/gaster/.git/objects/bc/6ccf5b2c1c5bb1321f9eb3e1dae19fd31964fa  
+  inflating: ramdisk/gaster/.git/objects/bd/58ffc16ea722b6202d6e5e7110df2bdc6a1b6a  
+  inflating: ramdisk/gaster/.git/objects/e0/49b57041947061f8b1fe39542db20c25b8b5b0  
+  inflating: ramdisk/gaster/.git/refs/heads/main  
+  inflating: ramdisk/gaster/.git/refs/remotes/origin/main  
+  inflating: ramdisk/gaster/.github/workflows/makefile.yml  
+[*] gaster is installed and ready to use.
+[*] Waiting for devices
+[*] Detected DFU mode device
+[*] Getting device info...
+[*] Creating ramdisk
+[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel
+error: externally-managed-environment
+
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install
+    python3-xyz, where xyz is the package you are trying to
+    install.
+    
+    If you wish to install a non-Debian-packaged Python package,
+    create a virtual environment using python3 -m venv path/to/venv.
+    Then use path/to/venv/bin/python and path/to/venv/bin/pip. Make
+    sure you have python3-full installed.
+    
+    If you wish to install a non-Debian packaged Python application,
+    it may be easiest to use pipx install xyz, which will manage a
+    virtual environment for you. Make sure you have pipx installed.
+    
+    See /usr/share/doc/python3.11/README.venv for more information.
+
+note: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.
+hint: See PEP 668 for the detailed specification.
+[-] An error occurred

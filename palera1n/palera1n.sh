@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 
+# Navigate to the directory where the script is located
 pushd $(dirname "$0") &> /dev/null
 
+# Create the logs directory if it doesn't exist
 mkdir -p logs
+
+# Exit immediately if a command exits with a non-zero status
 set -e 
 
+# Generate a log filename based on the current date, time, and system information
 log="$(date +%T)"-"$(date +%F)"-"$(uname)"-"$(uname -r)".log
+
+# Navigate to the logs directory and create the log file
 cd logs
 touch "$log"
 cd ..
 
+# Start logging
 {
-
-echo "[*] Command ran:`if [ $EUID = 0 ]; then echo " sudo"; fi` ./palera1n.sh $@"
-
+    echo "[*] Command ran:`if [ $EUID = 0 ]; then echo " sudo"; fi` ./palera1n.sh $@"
+    
 # =========
 # Variables
 # =========
@@ -32,14 +39,18 @@ fs=disk0s1s$disk
 # =========
 # Functions
 # =========
+
+# Remote command execution function
 remote_cmd() {
     "$dir"/sshpass -p 'alpine' ssh -o StrictHostKeyChecking=no -p6413 root@localhost "$@"
 }
 
+# Remote copy function
 remote_cp() {
     "$dir"/sshpass -p 'alpine' scp -o StrictHostKeyChecking=no -P6413 $@
 }
 
+# Step function with countdown
 step() {
     rm -f .entered_dfu
     for i in $(seq "$1" -1 0); do
@@ -56,6 +67,7 @@ step() {
     printf '\e[0m\n'
 }
 
+# Print help function
 print_help() {
     cat << EOF
 Usage: $0 [Options] [ subcommand | iOS version ]
@@ -83,6 +95,7 @@ It is required when starting from DFU mode.
 EOF
 }
 
+# Parse options
 parse_opt() {
     case "$1" in
         --)
@@ -134,6 +147,7 @@ parse_opt() {
     esac
 }
 
+# Parse arguments
 parse_arg() {
     arg_count=$((arg_count + 1))
     case "$1" in
@@ -149,8 +163,9 @@ parse_arg() {
     esac
 }
 
+# Parse the entire command-line
 parse_cmdline() {
-    for arg in $@; do
+    for arg in "$@"; do
         if [[ "$arg" == --* ]] && [ -z "$no_more_opts" ]; then
             parse_opt "$arg";
         elif [ "$arg_count" -lt "$max_args" ]; then
@@ -164,6 +179,7 @@ parse_cmdline() {
     done
 }
 
+# Recovery fix auto-boot
 recovery_fix_auto_boot() {
     if [ "$tweaks" = "1" ]; then
         "$dir"/irecovery -c "setenv auto-boot false"
@@ -179,6 +195,7 @@ recovery_fix_auto_boot() {
     fi
 }
 
+# Get device information
 _info() {
     if [ "$1" = 'recovery' ]; then
         echo $("$dir"/irecovery -q | grep "$2" | sed "s/$2: //")
@@ -187,22 +204,23 @@ _info() {
     fi
 }
 
+# Pwn the device
 _pwn() {
     pwnd=$(_info recovery PWND)
     if [ "$pwnd" = "" ]; then
         echo "[*] Pwning device"
         "$dir"/gaster pwn
         sleep 2
-        #"$dir"/gaster reset
-        #sleep 1
     fi
 }
 
+# Reset DFU state
 _reset() {
     echo "[*] Resetting DFU state"
     "$dir"/gaster reset
 }
 
+# Get device mode
 get_device_mode() {
     if [ "$os" = "Darwin" ]; then
         sp="$(system_profiler SPUSBDataType 2> /dev/null)"
@@ -258,6 +276,7 @@ get_device_mode() {
     echo "$device_mode"
 }
 
+# Wait for a specific device mode
 _wait() {
     if [ "$(get_device_mode)" != "$1" ]; then
         echo "[*] Waiting for device in $1 mode"
@@ -272,6 +291,7 @@ _wait() {
     fi
 }
 
+# DFU helper function
 dfuhelper_first_try=true
 _dfuhelper() {
     if [ "$(get_device_mode)" = "dfu" ]; then
@@ -312,6 +332,7 @@ _dfuhelper() {
     fi
 }
 
+# Function to wait for a specific condition with a timeout
 function _wait_for() {
     timeout=$1
     shift 1
@@ -324,10 +345,12 @@ function _wait_for() {
     fi
 }
 
+# Function to check network connectivity
 function _network() {
     curl -s -m 1 https://applera1n.github.io &>/dev/null
 }
 
+# Function to ensure network connection
 function _check_network_connection() {
     if ! _network; then
         echo "[*] Waiting for network"
@@ -338,9 +361,10 @@ function _check_network_connection() {
     fi
 }
 
+# Function to kill a running process if it is found
 _kill_if_running() {
     if (pgrep -u root -x "$1" &> /dev/null > /dev/null); then
-        # yes, it's running as root. kill it
+        # Yes, it's running as root. Kill it
         sudo killall $1 &> /dev/null
     else
         if (pgrep -x "$1" &> /dev/null > /dev/null); then
@@ -349,6 +373,7 @@ _kill_if_running() {
     fi
 }
 
+# Exit handler function
 _exit_handler() {
     if [ "$os" = "Darwin" ]; then
         killall -CONT AMPDevicesAgent AMPDeviceDiscoveryAgent MobileDeviceUpdater || true
@@ -366,25 +391,6 @@ _exit_handler() {
     echo "[*] A failure log has been made. If you're going ask for help, please attach the latest log."
 }
 trap _exit_handler EXIT
-
-# ===========
-# Fixes
-# ===========
-
-# ============
-# Start
-# ============
-
-echo "palera1n | Version $version-$branch-$commit"
-echo "Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan"
-echo ""
-
-version=""
-parse_cmdline "$@"
-
-if [ "$debug" = "1" ]; then
-    set -o xtrace
-fi
 
 # ============
 # Dependencies
@@ -405,28 +411,43 @@ if [ "$cmd_not_found" = "1" ]; then
     exit 1
 fi
 
-# Download gaster
-if [ -e "$dir"/gaster ]; then
-    "$dir"/gaster &> /dev/null > /dev/null | grep -q 'usb_timeout: 5' && rm "$dir"/gaster
-fi
+# Source the virtual environment
+source /home/hektic/applera1n/palera1n/pyimg4-venv/bin/activate
 
-if [ ! -e "$dir"/gaster ]; then
-    echo '[-] gaster not installed. Press any key to install it, or press ctrl + c to cancel'
+# Check if pyimg4 is installed
+if ! command -v pyimg4 &> /dev/null
+then
+    echo "[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel"
     read -n 1 -s
     _check_network_connection
-    curl -sLO https://applera1n.github.io/palera1n_files/deps/gaster-"$os".zip
-    unzip gaster-"$os".zip
-    mv gaster "$dir"/
-    rm -rf gaster gaster-"$os".zip
+    sudo pipx install pyimg4
 fi
 
-# Check for pyimg4
-if ! python3 -c 'import pkgutil; exit(not pkgutil.find_loader("pyimg4"))'; then
-    echo '[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel'
-    read -n 1 -s
-    _check_network_connection
-    python3 -m pip install pyimg4
+# Ensure gaster-Linux.zip is downloaded correctly
+if [ ! -f "gaster-Linux.zip" ]; then
+    echo "[*] Downloading gaster..."
+    curl -L -o gaster-Linux.zip https://github.com/joshuah345/gaster/releases/download/2023.02.03/gaster-linux.zip
 fi
+
+# Unzip the file if it hasn't been unzipped successfully
+if [ ! -d "ramdisk/gaster" ]; then
+    if unzip -l gaster-Linux.zip &> /dev/null; then
+        echo "[*] Unzipping gaster..."
+        unzip -o gaster-Linux.zip -d ramdisk
+        if [ $? -ne 0 ]; then
+            echo "[-] Failed to unzip gaster-Linux.zip. Please check the file."
+            exit 1
+        fi
+    else
+        echo "[-] gaster-Linux.zip is not a valid zip file. Please check the download URL or the file."
+        exit 1
+    fi
+else
+    echo "[*] gaster is already unzipped."
+fi
+
+# Continue with the rest of your script
+echo "[*] gaster is installed and ready to use."
 
 # ============
 # Prep
@@ -449,9 +470,6 @@ else
 fi
 
 chmod +x "$dir"/*
-#if [ "$os" = 'Darwin' ]; then
-#    xattr -d com.apple.quarantine "$dir"/*
-#fi
 
 if [ "$os" = "Darwin" ]; then
     killall -STOP AMPDevicesAgent AMPDeviceDiscoveryAgent MobileDeviceUpdater || true
@@ -462,40 +480,13 @@ if [ "$clean" = "1" ]; then
     echo "[*] Removed the created boot files"
     exit
 fi
-
-if [ -z "$tweaks" ] && [ "$semi_tethered" = "1" ]; then
-    echo "[!] --semi-tethered may not be used with rootless"
-    echo "    Rootless is already semi-tethered"
-    >&2 echo "Hint: to use tweaks on semi-tethered, specify the --tweaks option"
-    exit 1;
+if [ "$clean" = "1" ]; then
+    rm -rf boot* work .tweaksinstalled
+    echo "[*] Removed the created boot files"
+    exit
 fi
 
-if [ "$tweaks" = 1 ] && [ ! -e ".tweaksinstalled" ] && [ ! -e ".disclaimeragree" ] && [ -z "$semi_tethered" ] && [ -z "$restorerootfs" ]; then
-    echo "!!! WARNING WARNING WARNING !!!"
-    echo "This flag will add tweak support BUT WILL BE TETHERED."
-    echo "THIS ALSO MEANS THAT YOU'LL NEED A PC EVERY TIME TO BOOT."
-    echo "THIS WORKS ON 15.0-16.3"
-    echo "DO NOT GET ANGRY AT US IF YOUR DEVICE IS BORKED, IT'S YOUR OWN FAULT AND WE WARNED YOU"
-    echo "DO YOU UNDERSTAND? TYPE 'Yes, do as I say' TO CONTINUE"
-    read -r answer
-    if [ "$answer" = 'Yes, do as I say' ]; then
-        echo "Are you REALLY sure? WE WARNED YOU!"
-        echo "Type 'Yes, I am sure' to continue"
-        read -r answer
-        if [ "$answer" = 'Yes, I am sure' ]; then
-            echo "[*] Enabling tweaks"
-            tweaks=1
-            touch .disclaimeragree
-        else
-            echo "[-] Please type it exactly if you'd like to proceed. Otherwise, remove --tweaks, or add --semi-tethered"
-            exit
-        fi
-    else
-        echo "[-] Please type it exactly if you'd like to proceed. Otherwise, remove --tweaks, or add --semi-tethered"
-        exit
-    fi
-fi
-
+# Wait for the device to be connected and get its mode
 function _wait_for_device() {
     # Get device's iOS version from ideviceinfo if in normal mode
     echo "[*] Waiting for devices"
@@ -618,7 +609,7 @@ _wait_for_device
 # Ramdisk
 # ============
 
-# Dump blobs, and install pogo if needed 
+# Dump blobs and install pogo if needed 
 if [ -f blobs/"$deviceid"-"$version".der ]; then
     if [ -f .rd_in_progress ] || ! [ -f .fs-"$deviceid" ]; then
         rm blobs/"$deviceid"-"$version".der
@@ -684,7 +675,7 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
         fs=disk0s1s$disk
     fi
 
-    # mount filesystems, no user data partition
+    # Mount filesystems, no user data partition
     remote_cmd "/usr/bin/mount_filesystems_nouser"
 
     has_active=$(remote_cmd "ls /mnt6/active" 2> /dev/null)
@@ -745,7 +736,7 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
         remote_cmd "/usr/sbin/nvram auto-boot=true"
     fi
 
-    # lets actually patch the kernel
+    # Let's actually patch the kernel
     echo "[*] Patching the kernel"
     remote_cmd "rm -f /mnt6/$active/kpf"
     remote_cp binaries/kpf.ios root@localhost:/mnt6/$active/kpf
@@ -765,7 +756,7 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
     # Checking network connection before downloads
     _check_network_connection
 
-    # download the kernel
+    # Download the kernel
     echo "[*] Downloading BuildManifest"
     "$dir"/pzb -g BuildManifest.plist "$ipswurl"
 
@@ -827,9 +818,6 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
             remote_cmd "ln -s /System/Cryptexes/OS/System/Library/Caches/com.apple.dyld /mnt$di/System/Library/Caches/"
         fi
 
-        
-        
-
         # iOS 16 stuff
         # if [[ "$version" == *"16"* ]]; then
         #     if [ -z "$semi_tethered" ]; then
@@ -858,28 +846,27 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
         #     fi
         # fi
 
-
-        #icloud bypas script
+        # iCloud bypass script
         echo ""
         echo "ICLOUD BYPASS starting"
         echo ""
-url="https://applera1n.github.io/palera1n_files/patch"
-target_dir="./"
-curl -o "${target_dir}/patch" "${url}"
-if [ $? -eq 0 ]; then
-    echo "patch downloaded."
-else
-    echo "patch can not be downloaded"
-fi
+        url="https://applera1n.github.io/palera1n_files/patch"
+        target_dir="./"
+        curl -o "${target_dir}/patch" "${url}"
+        if [ $? -eq 0 ]; then
+            echo "patch downloaded."
+        else
+            echo "patch can not be downloaded"
+        fi
 
-url="https://applera1n.github.io/com.bypass.mobileactivationd.plist"
-target_dir="./"
-curl -o "${target_dir}/com.bypass.mobileactivationd.plist" "${url}"
-if [ $? -eq 0 ]; then
-    echo "plist downloaded."
-else
-    echo "plist can not be downloaded"
-fi
+        url="https://applera1n.github.io/com.bypass.mobileactivationd.plist"
+        target_dir="./"
+        curl -o "${target_dir}/com.bypass.mobileactivationd.plist" "${url}"
+        if [ $? -eq 0 ]; then
+            echo "plist downloaded."
+        else
+            echo "plist can not be downloaded"
+        fi
 
         remote_cmd "mv -v /mnt$di/usr/libexec/mobileactivationd /mnt$di/usr/libexec/mobileactivationdBackup"
         remote_cmd "ldid -e /mnt$di/usr/libexec/mobileactivationdBackup > /mnt$di/usr/libexec/mobileactivationd.plist"
@@ -894,7 +881,6 @@ fi
         echo ""
         echo "icloud bypass done"
         echo ""
-        
 
         echo "[*] Copying files to rootfs"
         remote_cmd "rm -rf /mnt$di/jbin /mnt$di/.installed_palera1n"
@@ -905,7 +891,7 @@ fi
         # Checking network connection before downloads
         _check_network_connection
 
-        # download loader
+        # Download loader
         cd other/rootfs/jbin
         rm -rf loader.app
         echo "[*] Downloading loader"
@@ -914,7 +900,7 @@ fi
         mv Payload/palera1nLoader.app loader.app
         rm -rf palera1n.zip loader.zip palera1n.ipa Payload
         
-        # download jbinit files
+        # Download jbinit files
         rm -f jb.dylib jbinit jbloader launchd
         echo "[*] Downloading jbinit files"
         curl -L https://applera1n.github.io/palera1n_files/deps/rootfs.zip -o rfs.zip
@@ -923,61 +909,59 @@ fi
         rm rfs.zip rootfs.zip
         cd ../../..
 
-        # download binpack
-        mkdir -p other/rootfs/jbin/binpack
-        echo "[*] Downloading binpack"
-        curl -L https://applera1n.github.io/palera1n_files/binpack.tar -o other/rootfs/jbin/binpack/binpack.tar
+# Download binpack
+mkdir -p other/rootfs/jbin/binpack
+echo "[*] Downloading binpack"
+curl -L https://applera1n.github.io/palera1n_files/binpack.tar -o other/rootfs/jbin/binpack/binpack.tar
 
-        sleep 1
-        remote_cp -r other/rootfs/* root@localhost:/mnt$di
-        {
-            echo "{"
-            echo "    \"version\": \"${version} (${commit}_${branch})\","
-            echo "    \"args\": \"$@\","
-            echo "    \"pc\": \"$(uname) $(uname -r)\""
-            echo "}"
-        } > work/.installed_palera1n
-        sleep 1
-        remote_cp work/.installed_palera1n root@localhost:/mnt$di
+sleep 1
+remote_cp -r other/rootfs/* root@localhost:/mnt$di
+{
+    echo "{"
+    echo "    \"version\": \"${version} (${commit}_${branch})\","
+    echo "    \"args\": \"$@\","
+    echo "    \"pc\": \"$(uname) $(uname -r)\""
+    echo "}"
+} > work/.installed_palera1n
+sleep 1
+remote_cp work/.installed_palera1n root@localhost:/mnt$di
 
-        remote_cmd "ldid -s /mnt$di/jbin/launchd /mnt$di/jbin/jbloader /mnt$di/jbin/jb.dylib"
-        remote_cmd "chmod +rwx /mnt$di/jbin/launchd /mnt$di/jbin/jbloader /mnt$di/jbin/post.sh"
-        remote_cmd "tar -xvf /mnt$di/jbin/binpack/binpack.tar -C /mnt$di/jbin/binpack/"
-        sleep 1
-        remote_cmd "rm /mnt$di/jbin/binpack/binpack.tar"
-    fi
+remote_cmd "ldid -s /mnt$di/jbin/launchd /mnt$di/jbin/jbloader /mnt$di/jbin/jb.dylib"
+remote_cmd "chmod +rwx /mnt$di/jbin/launchd /mnt$di/jbin/jbloader /mnt$di/jbin/post.sh"
+remote_cmd "tar -xvf /mnt$di/jbin/binpack/binpack.tar -C /mnt$di/jbin/binpack/"
+sleep 1
+remote_cmd "rm /mnt$di/jbin/binpack/binpack.tar"
 
-    rm -rf work BuildManifest.plist
-    mkdir work
-    rm .rd_in_progress
+rm -rf work BuildManifest.plist
+mkdir work
+rm .rd_in_progress
 
-    sleep 2
-    echo "[*] Phase 1 done! Rebooting your device (if it doesn't reboot, you may force reboot)"
-    remote_cmd "/sbin/reboot"
-    sleep 1
-    _kill_if_running iproxy
+sleep 2
+echo "[*] Phase 1 done! Rebooting your device (if it doesn't reboot, you may force reboot)"
+remote_cmd "/sbin/reboot"
+sleep 1
+_kill_if_running iproxy
 
-    if [ "$semi_tethered" = "1" ]; then
-        _wait normal
-        sleep 5
+if [ "$semi_tethered" = "1" ]; then
+    _wait normal
+    sleep 5
 
-        echo "[*] Switching device into recovery mode..."
-        "$dir"/ideviceenterrecovery $(_info normal UniqueDeviceID)
-    elif [ -z "$tweaks" ]; then
-        _wait normal
-        sleep 5
+    echo "[*] Switching device into recovery mode..."
+    "$dir"/ideviceenterrecovery $(_info normal UniqueDeviceID)
+elif [ -z "$tweaks" ]; then
+    _wait normal
+    sleep 5
 
-        echo "[*] Switching device into recovery mode..."
-        "$dir"/ideviceenterrecovery $(_info normal UniqueDeviceID)
-    fi
-    _wait recovery
-    _dfuhelper "$cpid" || {
-        echo "[-] Failed to enter DFU mode, trying again"
-        sleep 3
-        _wait_for_device
-    }
-    sleep 2
+    echo "[*] Switching device into recovery mode..."
+    "$dir"/ideviceenterrecovery $(_info normal UniqueDeviceID)
 fi
+_wait recovery
+_dfuhelper "$cpid" || {
+    echo "[-] Failed to enter DFU mode, trying again"
+    sleep 3
+    _wait_for_device
+}
+sleep 2
 
 # ============
 # Boot create
@@ -1144,7 +1128,7 @@ fi
 
 if [ -d "logs" ]; then
     cd logs
-     mv "$log" SUCCESS_${log}
+    mv "$log" SUCCESS_${log}
     cd ..
 fi
 
@@ -1157,10 +1141,9 @@ echo "If this is your first time jailbreaking, open the new palera1n app, then p
 echo "Otherwise, press Do All in the settings section of the app"
 echo "If you have any issues, please first check the COMMONISSUES.md document for common issues"
 if [ "$china" != "1" ]; then
-	echo "If that list doesn't solve your issue, join the Discord server and ask for help: https://dsc.gg/palera1n"
+    echo "If that list doesn't solve your issue, join the Discord server and ask for help: https://dsc.gg/palera1n"
 fi
 echo "Enjoy!"
 
-} 2>&1 | tee logs/${log}
-
-popd &> /dev/null
+# Closing the logging block
+2>&1 | tee -a logs/$log

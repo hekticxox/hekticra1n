@@ -1,0 +1,15 @@
+[*] Command ran: sudo ./palera1n.sh 15.6
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] pyimg4 not installed. Press any key to install it, or press ctrl + c to cancel
+'pyimg4' already seems to be installed. Not modifying existing installation in
+'/root/.local/pipx/venvs/pyimg4'. Pass '--force' to force installation.
+[*] pyimg4 is installed and ready to use.
+[*] Waiting for devices
+[*] Detected DFU mode device
+[*] Getting device info...
+./palera1n.sh: line 184: /home/hektic/applera1n/palera1n/ramdisk/irecovery: No such file or directory
+./palera1n.sh: line 184: /home/hektic/applera1n/palera1n/ramdisk/irecovery: No such file or directory
+./palera1n.sh: line 184: /home/hektic/applera1n/palera1n/ramdisk/irecovery: No such file or directory
+./palera1n.sh: line 613: /home/hektic/applera1n/palera1n/ramdisk/jq: No such file or directory
