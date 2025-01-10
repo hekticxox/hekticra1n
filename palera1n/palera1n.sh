@@ -423,8 +423,11 @@ if ! command -v gaster &> /dev/null; then
         exit 1
     fi
 
-    unzip gaster-Linux.zip
+    unzip -o gaster-Linux.zip -d gaster
 fi
+
+# Ensure gaster is executable
+chmod +x gaster/gaster
 
 # Download gaster
 if [ -e "$dir"/gaster ]; then

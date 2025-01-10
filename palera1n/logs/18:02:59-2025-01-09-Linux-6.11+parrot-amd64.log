@@ -1,0 +1,211 @@
+[*] Command ran: sudo ./palera1n.sh 15.8.3
+palera1n | Version 1.4.2-main-44e8f8d
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] gaster not installed. Press any key to install it, or press ctrl + c to cancel
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  103k  100  103k    0     0  90919      0  0:00:01  0:00:01 --:--:-- 90919100  103k  100  103k    0     0  90910      0  0:00:01  0:00:01 --:--:--     0
+No errors detected in compressed data of gaster-Linux.zip.
+Archive:  gaster-Linux.zip
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.github/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/ent.plist.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/gaster.c.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/gaster.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/LICENSE.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/lzfse.c.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/lzfse.h.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/Makefile.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_A9.bin.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_A9.S.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_handle_checkm8_request.bin.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_handle_checkm8_request.S.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_handle_checkm8_request_armv7.bin.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_handle_checkm8_request_armv7.S.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_notA9.bin.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_notA9.S.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_notA9_armv7.bin.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/payload_notA9_armv7.S.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/config.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/description.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/FETCH_HEAD.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/HEAD.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/index.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/info/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/shallow.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/applypatch-msg.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/commit-msg.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/fsmonitor-watchman.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/post-update.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-applypatch.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-commit.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-merge-commit.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-push.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-rebase.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/pre-receive.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/prepare-commit-msg.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/push-to-checkout.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/hooks/update.sample.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/info/exclude.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/HEAD.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/heads/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/remotes/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/heads/main.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/remotes/origin/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/logs/refs/remotes/origin/main.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/01/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/02/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/0e/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/1b/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/20/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/26/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/3c/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/44/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/46/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/47/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/49/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/4f/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/62/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/66/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/79/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/8d/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/b4/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/bc/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/bd/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/e0/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/01/78daa1601ffec7d42a03b0a61d2f7f488c59ff.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/02/921beb93dedf8d2a736f0abe08103e5e043b93.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/0e/1f5965863ca678ff1832a55c3bb5b790b82cf1.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/1b/1241d55cad5bd3d03882f1491479f0c3f01e4e.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/20/1a3b94f4d11d195885f601f609e5b291ee579f.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/26/1eeb9e9f8b2b4b0d119366dda99c6fd7d35c64.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/3c/81b21650bd6ec669e41ab22d94f0d28086e116.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/44/1e22f50ad34c86ad30f47e40205d13abb30cfc.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/46/0360b8159dbb60927292f23d43cf991b8ff967.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/47/d7cf0f8394f6ccfee727ac2dbae80fb677381f.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/49/318120f61b23db36ea18bbb74f60c8f427e96a.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/4f/b2ab48758743c95549bbb2962ce05f71c118e2.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/62/55d2763d714521d6b267251f6a621c70bd3531.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/66/9a4226f8ff4e7d11dc1500c150a6bcd0ebc566.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/79/655cea7a527d601b46e7414879067f6041d10f.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/8d/cff9693f5366c0f2128e972d9bda2b4b102f04.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/b4/66b8422b6a860a96e4c34897c10a3f46ee6521.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/b4/b165748cb351babaddc96ef7a80b44aab3a53c.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/bc/6ccf5b2c1c5bb1321f9eb3e1dae19fd31964fa.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/bd/58ffc16ea722b6202d6e5e7110df2bdc6a1b6a.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/objects/e0/49b57041947061f8b1fe39542db20c25b8b5b0.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/heads/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/remotes/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/heads/main.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/remotes/origin/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.git/refs/remotes/origin/main.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.github/workflows/.
+checkdir error:  gaster/gaster exists but is not directory
+                 unable to process gaster/.github/workflows/makefile.yml.

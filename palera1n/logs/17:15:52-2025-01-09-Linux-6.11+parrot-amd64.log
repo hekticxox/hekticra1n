@@ -1,0 +1,16 @@
+[*] Command ran: sudo ./palera1n.sh 15.8.3
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[*] Waiting for devices
+[*] Detected DFU mode device
+[*] Getting device info...
+[*] Creating ramdisk
+Archive:  gaster-Linux.zip
+  End-of-central-directory signature not found.  Either this file is not
+  a zipfile, or it constitutes one disk of a multi-part archive.  In the
+  latter case the central directory and zipfile comment will be found on
+  the last disk(s) of this archive.
+unzip:  cannot find zipfile directory in one of gaster-Linux.zip or
+        gaster-Linux.zip.zip, and cannot find gaster-Linux.zip.ZIP, period.
+[-] An error occurred

@@ -1,0 +1,10 @@
+[*] Command ran: sudo ./palera1n.sh 
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] gaster not installed. Press any key to install it, or press ctrl + c to cancel
+Archive:  gaster-Linux.zip
+  inflating: gaster                  
+[*] Waiting for devices
+[*] Detected DFU mode device
+[-] You must pass the version your device is on when not starting from normal mode

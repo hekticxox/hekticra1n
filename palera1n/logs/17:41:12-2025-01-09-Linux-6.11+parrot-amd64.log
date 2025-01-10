@@ -1,0 +1,87 @@
+[*] Command ran: sudo ./palera1n.sh 15.8.3
+palera1n | Version 1.4.2-main-bac77ba
+Made with ❤ by Nebula, Mineek, Nathan, llsc12, Ploosh, and Nick Chan
+
+[-] gaster not installed. Press any key to install it, or press ctrl + c to cancel
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+ 30  103k   30 32768    0     0  32299      0  0:00:03  0:00:01  0:00:02 32299100  103k  100  103k    0     0    98k      0  0:00:01  0:00:01 --:--:-- 2098k
+Archive:  gaster-Linux.zip
+replace gaster/ent.plist? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: gaster/ent.plist        
+replace gaster/gaster.c? [y]es, [n]o, [A]ll, [N]one, [r]ename: error:  invalid response [a]
+replace gaster/gaster.c? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: gaster/gaster.c         
+  inflating: gaster/gaster           
+  inflating: gaster/LICENSE          
+  inflating: gaster/lzfse.c          
+  inflating: gaster/lzfse.h          
+  inflating: gaster/Makefile         
+  inflating: gaster/payload_A9.bin   
+  inflating: gaster/payload_A9.S     
+  inflating: gaster/payload_handle_checkm8_request.bin  
+  inflating: gaster/payload_handle_checkm8_request.S  
+  inflating: gaster/payload_handle_checkm8_request_armv7.bin  
+  inflating: gaster/payload_handle_checkm8_request_armv7.S  
+  inflating: gaster/payload_notA9.bin  
+  inflating: gaster/payload_notA9.S  
+  inflating: gaster/payload_notA9_armv7.bin  
+  inflating: gaster/payload_notA9_armv7.S  
+  inflating: gaster/.git/config      
+  inflating: gaster/.git/description  
+  inflating: gaster/.git/FETCH_HEAD  
+  inflating: gaster/.git/HEAD        
+  inflating: gaster/.git/index       
+  inflating: gaster/.git/shallow     
+  inflating: gaster/.git/hooks/applypatch-msg.sample  
+  inflating: gaster/.git/hooks/commit-msg.sample  
+  inflating: gaster/.git/hooks/fsmonitor-watchman.sample  
+  inflating: gaster/.git/hooks/post-update.sample  
+  inflating: gaster/.git/hooks/pre-applypatch.sample  
+  inflating: gaster/.git/hooks/pre-commit.sample  
+  inflating: gaster/.git/hooks/pre-merge-commit.sample  
+  inflating: gaster/.git/hooks/pre-push.sample  
+  inflating: gaster/.git/hooks/pre-rebase.sample  
+  inflating: gaster/.git/hooks/pre-receive.sample  
+  inflating: gaster/.git/hooks/prepare-commit-msg.sample  
+  inflating: gaster/.git/hooks/push-to-checkout.sample  
+  inflating: gaster/.git/hooks/update.sample  
+  inflating: gaster/.git/info/exclude  
+  inflating: gaster/.git/logs/HEAD   
+  inflating: gaster/.git/logs/refs/heads/main  
+  inflating: gaster/.git/logs/refs/remotes/origin/main  
+  inflating: gaster/.git/objects/01/78daa1601ffec7d42a03b0a61d2f7f488c59ff  
+  inflating: gaster/.git/objects/02/921beb93dedf8d2a736f0abe08103e5e043b93  
+  inflating: gaster/.git/objects/0e/1f5965863ca678ff1832a55c3bb5b790b82cf1  
+  inflating: gaster/.git/objects/1b/1241d55cad5bd3d03882f1491479f0c3f01e4e  
+  inflating: gaster/.git/objects/20/1a3b94f4d11d195885f601f609e5b291ee579f  
+  inflating: gaster/.git/objects/26/1eeb9e9f8b2b4b0d119366dda99c6fd7d35c64  
+  inflating: gaster/.git/objects/3c/81b21650bd6ec669e41ab22d94f0d28086e116  
+  inflating: gaster/.git/objects/44/1e22f50ad34c86ad30f47e40205d13abb30cfc  
+  inflating: gaster/.git/objects/46/0360b8159dbb60927292f23d43cf991b8ff967  
+  inflating: gaster/.git/objects/47/d7cf0f8394f6ccfee727ac2dbae80fb677381f  
+  inflating: gaster/.git/objects/49/318120f61b23db36ea18bbb74f60c8f427e96a  
+  inflating: gaster/.git/objects/4f/b2ab48758743c95549bbb2962ce05f71c118e2  
+  inflating: gaster/.git/objects/62/55d2763d714521d6b267251f6a621c70bd3531  
+  inflating: gaster/.git/objects/66/9a4226f8ff4e7d11dc1500c150a6bcd0ebc566  
+  inflating: gaster/.git/objects/79/655cea7a527d601b46e7414879067f6041d10f  
+  inflating: gaster/.git/objects/8d/cff9693f5366c0f2128e972d9bda2b4b102f04  
+  inflating: gaster/.git/objects/b4/66b8422b6a860a96e4c34897c10a3f46ee6521  
+  inflating: gaster/.git/objects/b4/b165748cb351babaddc96ef7a80b44aab3a53c  
+  inflating: gaster/.git/objects/bc/6ccf5b2c1c5bb1321f9eb3e1dae19fd31964fa  
+  inflating: gaster/.git/objects/bd/58ffc16ea722b6202d6e5e7110df2bdc6a1b6a  
+  inflating: gaster/.git/objects/e0/49b57041947061f8b1fe39542db20c25b8b5b0  
+  inflating: gaster/.git/refs/heads/main  
+  inflating: gaster/.git/refs/remotes/origin/main  
+  inflating: gaster/.github/workflows/makefile.yml  
+[*] Waiting for devices
+[*] Detected DFU mode device
+[*] Getting device info...
+[*] Creating ramdisk
+Archive:  gaster-Linux.zip
+  End-of-central-directory signature not found.  Either this file is not
+  a zipfile, or it constitutes one disk of a multi-part archive.  In the
+  latter case the central directory and zipfile comment will be found on
+  the last disk(s) of this archive.
+unzip:  cannot find zipfile directory in one of gaster-Linux.zip or
+        gaster-Linux.zip.zip, and cannot find gaster-Linux.zip.ZIP, period.
+[-] An error occurred
