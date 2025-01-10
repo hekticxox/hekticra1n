@@ -73,6 +73,7 @@ Options:
     --china             Enable Mainland China specific workarounds (启用对中国大陆网络环境的替代办法)
     --ipsw              Specify a custom IPSW to use
     --serial            Enable serial output on the device (only needed for testing with a serial cable)
+    --skip-kernel-patch Skip kernel patching
 
 Subcommands:
     dfuhelper           An alias for --dfuhelper
@@ -123,6 +124,9 @@ parse_opt() {
             ;;
         --debug)
             debug=1
+            ;;
+        --skip-kernel-patch)
+            skip_kernel_patch=1
             ;;
         --help)
             print_help
@@ -405,6 +409,23 @@ if [ "$cmd_not_found" = "1" ]; then
     exit 1
 fi
 
+# Check if gaster is installed
+if ! command -v gaster &> /dev/null; then
+    echo "[-] gaster not installed. Press any key to install it, or press ctrl + c to cancel"
+    read -n 1 -s
+
+    # Download gaster-Linux.zip from the new URL
+    curl -L -o gaster-Linux.zip https://github.com/joshuah345/gaster/releases/download/2023.02.03/gaster-linux.zip
+
+    # Check if gaster-Linux.zip exists and is a valid zip file
+    if [ ! -f "gaster-Linux.zip" ] || ! unzip -tq gaster-Linux.zip; then
+        echo "[-] gaster-Linux.zip not found or is invalid. Please ensure the file is in the correct directory."
+        exit 1
+    fi
+
+    unzip gaster-Linux.zip
+fi
+
 # Download gaster
 if [ -e "$dir"/gaster ]; then
     "$dir"/gaster &> /dev/null > /dev/null | grep -q 'usb_timeout: 5' && rm "$dir"/gaster
@@ -495,6 +516,14 @@ if [ "$tweaks" = 1 ] && [ ! -e ".tweaksinstalled" ] && [ ! -e ".disclaimeragree"
         exit
     fi
 fi
+
+# Check if device version is passed
+if [ -z "$1" ]; then
+    echo "[-] You must pass the version your device is on when not starting from normal mode"
+    exit 1
+fi
+
+DEVICE_VERSION=$1
 
 function _wait_for_device() {
     # Get device's iOS version from ideviceinfo if in normal mode
@@ -712,104 +741,72 @@ if [ ! -f blobs/"$deviceid"-"$version".der ]; then
         exit;
     fi
 
-    echo "[*] Dumping apticket"
-    sleep 1
-    remote_cp root@localhost:/mnt6/$active/System/Library/Caches/apticket.der blobs/"$deviceid"-"$version".der
-    #remote_cmd "cat /dev/rdisk1" | dd of=dump.raw bs=256 count=$((0x4000)) 
-    #"$dir"/img4tool --convert -s blobs/"$deviceid"-"$version".shsh2 dump.raw
-    #rm dump.raw
+    if [ "$skip_kernel_patch" != "1" ]; then
+        echo "[*] Patching the kernel"
+        remote_cmd "rm -f /mnt6/$active/kpf"
+        remote_cp binaries/kpf.ios root@localhost:/mnt6/$active/kpf
+        remote_cmd "/usr/sbin/chown 0 /mnt6/$active/kpf"
+        remote_cmd "/bin/chmod 755 /mnt6/$active/kpf"
 
-    if [ "$semi_tethered" = "1" ]; then
-        if [ -z "$skip_fakefs" ]; then
-            echo "[*] Creating fakefs, this may take a while (up to 10 minutes)"
-            remote_cmd "/sbin/newfs_apfs -A -D -o role=r -v Xystem /dev/disk0s1" && {
-            sleep 2
-            remote_cmd "/sbin/mount_apfs /dev/$fs /mnt8"
-            sleep 1
-            remote_cmd "cp -a /mnt1/. /mnt8/"
-            sleep 1
-            echo "[*] fakefs created, continuing..."
-            } || echo "[*] Using the old fakefs, run restorerootfs if you need to clean it" 
+        remote_cmd "rm -f /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd"
+        if [ "$tweaks" = "1" ]; then
+            if [ "$semi_tethered" = "1" ]; then
+                remote_cmd "cp /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache.bak"
+            else
+                remote_cmd "mv /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache.bak || true"
+            fi
         fi
-    fi
+        sleep 1
 
-    #remote_cmd "/usr/sbin/nvram allow-root-hash-mismatch=1"
-    #remote_cmd "/usr/sbin/nvram root-live-fs=1"
-    if [ "$tweaks" = "1" ]; then
-        if [ "$semi_tethered" = "1" ]; then
-            remote_cmd "/usr/sbin/nvram auto-boot=true"
+        # Checking network connection before downloads
+        _check_network_connection
+
+        # download the kernel
+        echo "[*] Downloading BuildManifest"
+        "$dir"/pzb -g BuildManifest.plist "$ipswurl"
+
+        echo "[*] Downloading kernelcache"
+        "$dir"/pzb -g "$(awk "/""$model""/{x=1}x&&/kernelcache.release/{print;exit}" BuildManifest.plist | grep '<string>' | cut -d\> -f2 | cut -d\< -f1)" "$ipswurl"
+        
+        echo "[*] Patching kernelcache"
+        mv kernelcache.release.* work/kernelcache
+        if [[ "$deviceid" == "iPhone8"* ]] || [[ "$deviceid" == "iPad6"* ]] || [[ "$deviceid" == *'iPad5'* ]]; then
+            python3 -m pyimg4 im4p extract -i work/kernelcache -o work/kcache.raw --extra work/kpp.bin
         else
-            remote_cmd "/usr/sbin/nvram auto-boot=false"
+            python3 -m pyimg4 im4p extract -i work/kernelcache -o work/kcache.raw
         fi
-    else
-        remote_cmd "/usr/sbin/nvram auto-boot=true"
-    fi
-
-    # lets actually patch the kernel
-    echo "[*] Patching the kernel"
-    remote_cmd "rm -f /mnt6/$active/kpf"
-    remote_cp binaries/kpf.ios root@localhost:/mnt6/$active/kpf
-    remote_cmd "/usr/sbin/chown 0 /mnt6/$active/kpf"
-    remote_cmd "/bin/chmod 755 /mnt6/$active/kpf"
-
-    remote_cmd "rm -f /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.im4p /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd"
-    if [ "$tweaks" = "1" ]; then
-        if [ "$semi_tethered" = "1" ]; then
-            remote_cmd "cp /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache.bak"
+        sleep 1
+        remote_cp work/kcache.raw root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/
+        remote_cmd "/mnt6/$active/kpf /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched"
+        remote_cp root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched work/
+        if [ "$tweaks" = "1" ]; then
+            if [[ "$version" == *"16"* ]]; then
+                "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -e -o -u -l -h -d
+            else
+                "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -e -l
+            fi
         else
-            remote_cmd "mv /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcache.bak || true"
+            "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -a
         fi
-    fi
-    sleep 1
-
-    # Checking network connection before downloads
-    _check_network_connection
-
-    # download the kernel
-    echo "[*] Downloading BuildManifest"
-    "$dir"/pzb -g BuildManifest.plist "$ipswurl"
-
-    echo "[*] Downloading kernelcache"
-    "$dir"/pzb -g "$(awk "/""$model""/{x=1}x&&/kernelcache.release/{print;exit}" BuildManifest.plist | grep '<string>' | cut -d\> -f2 | cut -d\< -f1)" "$ipswurl"
-    
-    echo "[*] Patching kernelcache"
-    mv kernelcache.release.* work/kernelcache
-    if [[ "$deviceid" == "iPhone8"* ]] || [[ "$deviceid" == "iPad6"* ]] || [[ "$deviceid" == *'iPad5'* ]]; then
-        python3 -m pyimg4 im4p extract -i work/kernelcache -o work/kcache.raw --extra work/kpp.bin
-    else
-        python3 -m pyimg4 im4p extract -i work/kernelcache -o work/kcache.raw
-    fi
-    sleep 1
-    remote_cp work/kcache.raw root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/
-    remote_cmd "/mnt6/$active/kpf /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched"
-    remote_cp root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched work/
-    if [ "$tweaks" = "1" ]; then
-        if [[ "$version" == *"16"* ]]; then
-            "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -e -o -u -l -h -d
+        
+        sleep 1
+        if [[ "$deviceid" == *'iPhone8'* ]] || [[ "$deviceid" == *'iPad6'* ]] || [[ "$deviceid" == *'iPad5'* ]]; then
+            python3 -m pyimg4 im4p create -i work/kcache.patched2 -o work/kcache.im4p -f krnl --extra work/kpp.bin --lzss
         else
-            "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -e -l
+            python3 -m pyimg4 im4p create -i work/kcache.patched2 -o work/kcache.im4p -f krnl --lzss
         fi
-    else
-        "$dir"/Kernel64Patcher work/kcache.patched work/kcache.patched2 -a
-    fi
-    
-    sleep 1
-    if [[ "$deviceid" == *'iPhone8'* ]] || [[ "$deviceid" == *'iPad6'* ]] || [[ "$deviceid" == *'iPad5'* ]]; then
-        python3 -m pyimg4 im4p create -i work/kcache.patched2 -o work/kcache.im4p -f krnl --extra work/kpp.bin --lzss
-    else
-        python3 -m pyimg4 im4p create -i work/kcache.patched2 -o work/kcache.im4p -f krnl --lzss
-    fi
-    sleep 1
-    remote_cp work/kcache.im4p root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/
-    remote_cmd "img4 -i /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.im4p -o /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd -M /mnt6/$active/System/Library/Caches/apticket.der"
-    remote_cmd "rm -f /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.im4p"
+        sleep 1
+        remote_cp work/kcache.im4p root@localhost:/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/
+        remote_cmd "img4 -i /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.im4p -o /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd -M /mnt6/$active/System/Library/Caches/apticket.der"
+        remote_cmd "rm -f /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.raw /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.patched /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kcache.im4p"
 
-    sleep 1
-    has_kernelcachd=$(remote_cmd "ls /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd" 2> /dev/null)
-    if [ "$has_kernelcachd" = "/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd" ]; then
-        echo "[*] Custom kernelcache now exists!"
-    else
-        echo "[!] Custom kernelcache doesn't exist..? Please send a log and report this bug..."
+        sleep 1
+        has_kernelcachd=$(remote_cmd "ls /mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd" 2> /dev/null)
+        if [ "$has_kernelcachd" = "/mnt6/$active/System/Library/Caches/com.apple.kernelcaches/kernelcachd" ]; then
+            echo "[*] Custom kernelcache now exists!"
+        else
+            echo "[!] Custom kernelcache doesn't exist..? Please send a log and report this bug..."
+        fi
     fi
 
     if [ "$tweaks" = "1" ]; then
